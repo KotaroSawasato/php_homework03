@@ -1,17 +1,14 @@
 <?php
 session_start();
-$db_user = "root";
-$db_pass = "root";
-$db_name = "php_homework03";
-
-//mysqlに接続 
-$mysqli = new mysqli("localhost", $db_user, $db_pass, $db_name);
+require_once('db_access.php');
+$dbh = accessDB();
 
 $data[0]=$_POST["h_name"];
 $data[1]=$_POST["entry_address"];
 $data[2]=$_POST["sex"];
 $data[3]=$_POST["entry_pass1"];
 $data[4]=$_POST["entry_pass2"];
+
 
 ?>
 <html>
@@ -28,9 +25,10 @@ $data[4]=$_POST["entry_pass2"];
 <body>
 	<h2>ログイン</h2>
 	<?php
-	if($_SESSION['login_check']=="failed")?>
+	if($_SESSION['login_check']=="failed"){ ?>
 	<font color="red">メールアドレス・パスワードが間違っています</font>
-	<form method="post" action="index.php">
+	<?php } ?>
+	<form method="post" action="login_check.php">
 		メールアドレス：<input type="text" name="login_address"><br>
 		パスワード：<input type="pass" name ="login_pass"><br>
 		<input type="submit" value="ログイン"><br>
@@ -39,21 +37,22 @@ $data[4]=$_POST["entry_pass2"];
 	<h2>新規登録</h2>
 	<?php
 
-	if($data[3] !== $data[4]){?>
+	if($data[3] !== $data[4]){ ?>
 
 	<font color="red">パスワードが一致しません</font>
 
-	<?php }else{
+	<?php }else if(empty($data[0]) || empty($data[1]) || empty($data[2]) || empty($data[3]) || empty($data[4])){ ?>
+	<font color="red">入力していないフォームがあります</font>
 
-		$change_pass = MD5($data[3]);
-
-		if(!empty($data[0]) && isset($data[1]) && !empty($data[2]) && !empty($change_pass)){
-
-			$mysqli->query("INSERT INTO `user_info` (`h_name`,`mail_address`,`sex`,`pass`) 
-				VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$change_pass."')");
-
-		}
+	<?php }else if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]) && !empty($data[3])){
+		$change_pass = md5($data[3]);
+		echo $change_pass;
+		$sql = "INSERT INTO `user_info` (`h_name`,`mail_address`,`sex`,`pass`) 
+		VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$change_pass."');";
+		$stmt = $dbh -> query($sql);
+		echo "登録完了";
 	} ?>
+
 	<form method="post" action = "top.php">
 		ハンドルネーム：<input type="text" name="h_name"><br>
 		メールアドレス：<input type = "text" name ="entry_address"><br>
