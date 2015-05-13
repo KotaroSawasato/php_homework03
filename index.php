@@ -10,7 +10,6 @@ $mysqli = new mysqli("localhost", $db_user, $db_pass, $db_name);
 	//ログインフォームの値がデータベースの内容と一致するか調べる
 $login_data[0]=$_POST["login_address"];
 $login_data[1]=$_POST["login_pass"];
-$_SESSION['login_check']="failed";
 
 $sql = "SELECT * FROM `user_info`;";
 foreach ($mysqli->query($sql) as $row){
