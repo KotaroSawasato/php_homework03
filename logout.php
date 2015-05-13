@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once('db_access.php');
+$dbh = accessDB();
 ?>
 <html>
 <head>
@@ -12,7 +14,7 @@ session_start();
 	if($_POST["flag"]=="logout"){
 		$SESSION[]=array();
 		session_destroy();
-		echo 'ログアウト中です。５秒後にトップページへ移動します'
+		echo 'ログアウト中です。５秒後にトップページへ移動します';
 		echo '<meta http-equiv="refresh" content="5;URL=../php_homework03/top.php"/>';
 	}
 
