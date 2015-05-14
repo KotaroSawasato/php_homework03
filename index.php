@@ -11,9 +11,11 @@ $dbh = accessDB();
 <title>ログイン後のページ</title>
 </head>
 <body>
- 	ログイン成功
+	ログインしています<br>
+
+	<hr>
  	<form method="post" action="logout.php">
-	<input type="hidden" name = "flag" value ="logout">
+	<input type="hidden" name = "logout_flag" value ="logout">
  		<input type ="submit" value="ログアウト">
  	</form>
  </body>
