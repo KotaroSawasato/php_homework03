@@ -11,7 +11,7 @@ $dbh = accessDB();
 </head>
 <body>
 	<?php
-	if($_POST["flag"]=="logout"){
+	if($_POST["logout_flag"]=="logout"){
 		$SESSION[]=array();
 		session_destroy();
 		echo 'ログアウト中です。５秒後にトップページへ移動します';
@@ -19,10 +19,6 @@ $dbh = accessDB();
 	}
 
 	?>
-	
-	
-	
-
 	
 </body>
 </html>
