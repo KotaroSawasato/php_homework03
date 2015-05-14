@@ -8,7 +8,7 @@ $data[1]=$_POST["entry_address"];
 $data[2]=$_POST["sex"];
 $data[3]=$_POST["entry_pass1"];
 $data[4]=$_POST["entry_pass2"];
-
+$entry_flag=$_POST["entry_flag"];
 
 ?>
 <html>
@@ -36,17 +36,13 @@ $data[4]=$_POST["entry_pass2"];
 	<hr>
 	<h2>新規登録</h2>
 	<?php
-
-	if($data[3] !== $data[4]){ ?>
-
+	if($data[3] !== $data[4] && $_POST["entry_flag"]=="entry"){ ?>
 	<font color="red">パスワードが一致しません</font>
-
-	<?php }else if(empty($data[0]) || empty($data[1]) || empty($data[2]) || empty($data[3]) || empty($data[4])){ ?>
+	<?php }else if((empty($data[0]) || empty($data[1]) || empty($data[2]) || empty($data[3]) || empty($data[4])) && $_POST["entry_flag"]=="entry"){ ?>
 	<font color="red">入力していないフォームがあります</font>
 
-	<?php }else if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]) && !empty($data[3])){
+	<?php }else if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]) && !empty($data[3] && $_POST["entry_flag"]=="entry")){
 		$change_pass = md5($data[3]);
-		echo $change_pass;
 		$sql = "INSERT INTO `user_info` (`h_name`,`mail_address`,`sex`,`pass`) 
 		VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$change_pass."');";
 		$stmt = $dbh -> query($sql);
@@ -60,6 +56,7 @@ $data[4]=$_POST["entry_pass2"];
 		<input type="radio" name="sex" value="女">女<br>
 		パスワード：<input type="password" name ="entry_pass1"><br>
 		パスワード(確認用)：<input type="password" name ="entry_pass2"><br>
+		<input type="hidden" name="entry_flag" value="entry">
 		<input type="submit" value="新規登録"><br>
 	</form>
 </body>
